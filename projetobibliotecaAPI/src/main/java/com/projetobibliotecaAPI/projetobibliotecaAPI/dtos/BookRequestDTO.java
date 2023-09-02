@@ -1,9 +1,11 @@
 package com.projetobibliotecaAPI.projetobibliotecaAPI.dtos;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.projetobibliotecaAPI.projetobibliotecaAPI.models.Author;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,19 +15,22 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class BookRequestDTO {
     @NotBlank
     private String title;
 
     @NotBlank
-    private String genero;
+    private String genre;
 
     @NotBlank
     @ISBN(type = org.hibernate.validator.constraints.ISBN.Type.ANY)
-    private String ISBN;
+    private String isbn;
 
     @Past
     @NotNull
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate realeseDate;
+
+
 }

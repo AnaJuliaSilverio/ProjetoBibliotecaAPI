@@ -1,6 +1,7 @@
 package com.projetobibliotecaAPI.projetobibliotecaAPI.dtos;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.projetobibliotecaAPI.projetobibliotecaAPI.models.Author;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
@@ -21,11 +22,12 @@ public class BookResponseDTO {
     private String title;
 
     @NotBlank
-    private String genero;
+    private String genre;
+    private Author author;
 
     @NotBlank
     @ISBN(type = org.hibernate.validator.constraints.ISBN.Type.ANY)
-    private String ISBN;
+    private String isbn;
 
     @Past
     @NotNull

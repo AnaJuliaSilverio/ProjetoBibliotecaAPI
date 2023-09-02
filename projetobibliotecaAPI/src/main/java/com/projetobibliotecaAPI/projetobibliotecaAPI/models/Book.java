@@ -17,21 +17,22 @@ import java.time.LocalDate;
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_book")
     private Long id;
+    @Column(nullable = false)
+    private String isbn;
 
     @Column(nullable = false)
     private String title;
 
     @Column(nullable = false)
-    private String genero;
-
-    @Column(nullable = false)
-    private String ISBN;
+    private String genre;
 
     @Column(name = "realese_date",nullable = false)
     private LocalDate realeseDate;
 
     @ManyToOne
+    @JoinColumn(name = "fk_id_author")
     private Author author;
 
 }
