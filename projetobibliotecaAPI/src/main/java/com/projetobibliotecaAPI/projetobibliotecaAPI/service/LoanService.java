@@ -4,6 +4,7 @@ package com.projetobibliotecaAPI.projetobibliotecaAPI.service;
 import com.projetobibliotecaAPI.projetobibliotecaAPI.dtos.LoanRequestDTO;
 import com.projetobibliotecaAPI.projetobibliotecaAPI.dtos.LoanResponseDTO;
 import com.projetobibliotecaAPI.projetobibliotecaAPI.models.Book;
+import com.projetobibliotecaAPI.projetobibliotecaAPI.models.BookUnavailableException;
 import com.projetobibliotecaAPI.projetobibliotecaAPI.models.Loan;
 import com.projetobibliotecaAPI.projetobibliotecaAPI.repositories.BookRepository;
 import com.projetobibliotecaAPI.projetobibliotecaAPI.repositories.LoanRepository;
@@ -29,6 +30,7 @@ public class LoanService {
         verifyLoanStatus(bookId);
         if (loanRequestDTO.getLoanDate().isAfter(loanRequestDTO.getReturnDate())) throw new DateTimeException("Data Inválida");
         Loan loan = new Loan();
+        loan.setStatus("Alugado");
         modelMapper.map(loanRequestDTO,loan);
         loan.setBook(book);
         loanRepository.save(loan);
@@ -52,7 +54,7 @@ public class LoanService {
         loanRepository.save(loan);
         return modelMapper.map(loan,LoanResponseDTO.class);
     }
-    public void deleteBook(Long id){
+    public void deleteLoan(Long id){
         Loan loan = loanRepository.findById(id).orElseThrow(()-> new EntityNotFoundException("Nenhum empréstimo identificado"));
         loanRepository.delete(loan);
     }
@@ -61,7 +63,7 @@ public class LoanService {
         Book book = bookRepository.findById(bookId).orElseThrow(()-> new EntityNotFoundException("Nenhum livro identificado"));
         List<Loan> loans = loanRepository.findByBook(book);
         loans.forEach(loan -> {
-            if (loan.getStatus().equals("alugado")) throw new RuntimeException("Livro indisponível");
+            if (loan.getStatus().equals("alugado")) throw new BookUnavailableException();
         });
     }
 }
