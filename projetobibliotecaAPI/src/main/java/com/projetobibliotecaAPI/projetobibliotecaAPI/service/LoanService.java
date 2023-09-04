@@ -30,7 +30,7 @@ public class LoanService {
         verifyLoanStatus(bookId);
         if (loanRequestDTO.getLoanDate().isAfter(loanRequestDTO.getReturnDate())) throw new DateTimeException("Data Inválida");
         Loan loan = new Loan();
-        loan.setStatus("Alugado");
+        loan.setStatus("alugado");
         modelMapper.map(loanRequestDTO,loan);
         loan.setBook(book);
         loanRepository.save(loan);
